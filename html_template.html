@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with AI</title>
+    <style>
+        /* Your existing CSS */
+    </style>
+</head>
+<body>
+    <div id="chat-container"></div>
+    <div id="input-area">
+        <input type="text" id="question-input" placeholder="Type your question here..." />
+        <button onclick="sendQuestion()">Ask AI</button>
+    </div>
+
+    <script>
+        // Function to get or create a session token
+        function getSessionToken() {
+            let sessionToken = localStorage.getItem('sessionToken');
+            if (!sessionToken) {
+                sessionToken = generateUUID();
+                localStorage.setItem('sessionToken', sessionToken);
+            }
+            return sessionToken;
+        }
+
+        // Function to generate a UUID (for session token)
+        function generateUUID() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        // Fetch the session token
+        const sessionToken = getSessionToken();
+
+        async function sendQuestion() {
+            const questionInput = document.getElementById('question-input');
+            const question = questionInput.value;
+            questionInput.value = '';
+
+            if (question) {
+                const response = await fetch('http://localhost:8000/chat_with_ai', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Session-Token': sessionToken
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+                displayResponse(question, data.response);
+            }
+        }
+
+        function displayResponse(question, answer) {
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.innerHTML += `<p><b>You:</b> ${question}</p>`;
+            chatContainer.innerHTML += `<p><b>AI:</b> ${answer}</p>`;
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to the latest message
+        }
+
+    </script>
+</body>
+</html>
