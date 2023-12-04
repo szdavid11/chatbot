@@ -37,5 +37,7 @@ with input_container:
             st.session_state.chat_history.append("**You**: " + user_message)
             response = respond_to_message(user_message)
             st.session_state.chat_history.append("**AI**: " + response)
-            # Reset the message input
+            # Clear the input box after sending the message
+            st.session_state.new_message = ""
             st.experimental_rerun()
+
