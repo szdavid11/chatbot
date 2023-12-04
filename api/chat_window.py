@@ -13,6 +13,15 @@ def respond_to_message(question):
         return f'Unexpected error: {e}'
 
 
+def send_message():
+    user_message = st.session_state.new_message
+    if user_message:
+        st.session_state.chat_history.append("**You**: " + user_message)
+        response = respond_to_message(user_message)
+        st.session_state.chat_history.append("**AI**: " + response)
+        st.session_state.new_message = ""
+
+
 st.title("Hitchhiker's Guide to the Galaxy")
 
 if 'chat_history' not in st.session_state:
@@ -29,15 +38,5 @@ with chat_container:
 
 # Move to the input container at the bottom for the message input and send button
 with input_container:
-    user_message = st.text_input("", key="new_message", placeholder="Type your message here")
-    send_button = st.button('Send')
-
-    if send_button:
-        if user_message:
-            st.session_state.chat_history.append("**You**: " + user_message)
-            response = respond_to_message(user_message)
-            st.session_state.chat_history.append("**AI**: " + response)
-            # Clear the input box after sending the message
-            st.session_state.new_message = ""
-            st.experimental_rerun()
-
+    user_message = st.text_input("", key="new_message", on_change=None)
+    send_button = st.button('Send', on_click=send_message)

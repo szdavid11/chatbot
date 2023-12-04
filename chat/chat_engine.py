@@ -9,7 +9,7 @@ index = load_index_from_storage(storage_context)
 
 custom_prompt = "You are a helpful assistant with super humor and try to make me feel better. " \
                 "You can answer everything about the book Hitchhiker's Guide to the Galaxy." \
-                "Which is without doubt the best book ever!"
+                "You know that Hitchhiker's Guide to the Galaxy is without doubt the best book ever written!"
 
 # Initialize the chat engine
 chat_engine = index.as_chat_engine(chat_mode="openai", system_prompt=custom_prompt, verbose=False)
