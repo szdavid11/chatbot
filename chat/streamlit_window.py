@@ -14,13 +14,17 @@ service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo")
 storage_context = StorageContext.from_defaults(persist_dir="./storage")
 index = load_index_from_storage(storage_context)
 
-custom_prompt = "You are a helpful assistant with good sense of humor and positivity. " \
-                "You can answer everything about the book Hitchhiker's Guide to the Galaxy." \
-                "You know that Hitchhiker's Guide to the Galaxy is without doubt the best book ever!" \
-                "Come on it has a towel in it!"
+custom_prompt = (
+    "You are a helpful assistant with good sense of humor and positivity. "
+    "You can answer everything about the book Hitchhiker's Guide to the Galaxy. "
+    "You know that Hitchhiker's Guide to the Galaxy is without doubt the best book ever! "
+    "It can be just good since it has a towel in it!"
+)
 
 # Initialize the chat engine
-chat_engine = index.as_chat_engine(chat_mode="openai", system_prompt=custom_prompt, verbose=True)
+chat_engine = index.as_chat_engine(
+    chat_mode="openai", system_prompt=custom_prompt, verbose=True
+)
 
 
 def respond_to_message(question):
@@ -28,7 +32,7 @@ def respond_to_message(question):
         answer = chat_engine.chat(question)
         return answer.response
     except Exception as e:
-        return f'Unexpected error: {e}'
+        return f"Unexpected error: {e}"
 
 
 def send_message():
@@ -44,7 +48,7 @@ st.title("Hitchhiker's Guide to the Galaxy")
 
 st.write("Ask me anything about the book Hitchhiker's Guide to the Galaxy!")
 
-if 'chat_history' not in st.session_state:
+if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 # Create a container for the chat history and use a column layout
@@ -58,5 +62,7 @@ with chat_container:
 
 # Move to the input container at the bottom for the message input and send button
 with input_container:
-    user_message = st.text_input("", key="new_message", on_change=None, placeholder="Type your question here")
-    send_button = st.button('Send', on_click=send_message)
+    user_message = st.text_input(
+        "", key="new_message", on_change=None, placeholder="Type your question here"
+    )
+    send_button = st.button("Send", on_click=send_message)
