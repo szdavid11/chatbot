@@ -1,7 +1,4 @@
 import streamlit as st
-from dotenv import load_dotenv
-load_dotenv()
-
 from llama_index import (
     StorageContext,
     load_index_from_storage,
@@ -37,6 +34,8 @@ def send_message():
 
 
 st.title("Hitchhiker's Guide to the Galaxy")
+
+st.write("Ask me anything about the book Hitchhiker's Guide to the Galaxy!")
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
