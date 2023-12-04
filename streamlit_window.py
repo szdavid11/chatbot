@@ -11,7 +11,7 @@ service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo")
 
 
 # load the existing index
-storage_context = StorageContext.from_defaults(persist_dir="./storage")
+storage_context = StorageContext.from_defaults(persist_dir="storage")
 index = load_index_from_storage(storage_context)
 
 custom_prompt = (

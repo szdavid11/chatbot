@@ -8,7 +8,7 @@ from llama_index import (
 
 if __name__ == "__main__":
     # check if storage already exists
-    if not os.path.exists("./storage"):
+    if not os.path.exists("storage"):
         # load the documents and create the index
         documents = SimpleDirectoryReader("data").load_data()
         index = VectorStoreIndex.from_documents(documents)
@@ -16,7 +16,7 @@ if __name__ == "__main__":
         index.storage_context.persist()
     else:
         # load the existing index
-        storage_context = StorageContext.from_defaults(persist_dir="./storage")
+        storage_context = StorageContext.from_defaults(persist_dir="storage")
         index = load_index_from_storage(storage_context)
 
     custom_prompt = (
