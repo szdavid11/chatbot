@@ -1,8 +1,14 @@
 import streamlit as st
 from llama_index import (
     StorageContext,
+    ServiceContext,
     load_index_from_storage,
 )
+from llama_index.llms import OpenAI
+
+# Specify the OpenAI model you want to use
+service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo"))
+
 
 # load the existing index
 storage_context = StorageContext.from_defaults(persist_dir="./storage")
@@ -51,5 +57,5 @@ with chat_container:
 
 # Move to the input container at the bottom for the message input and send button
 with input_container:
-    user_message = st.text_input("", key="new_message", on_change=None)
+    user_message = st.text_input("", key="new_message", on_change=None, placeholder="Type your question here")
     send_button = st.button('Send', on_click=send_message)
